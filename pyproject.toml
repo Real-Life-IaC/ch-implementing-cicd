@@ -1,0 +1,13 @@
+[tool.poetry]
+authors = ["Andre Sionek <andre@real-life-iac.com>"]
+name = "ch-implementing-ci-cd"
+description = "Code for the book Real Life Infrastructure as Code with AWS CDK" # noqa
+keywords = ['cdk', 'iac', 'infrastructure', 'devops', 'python', 'backend', "platform"] # noqa
+readme = "README.md"
+homepage = "https://real-life-iac.com/"
+version = "0.0.0"
+
+
+[tool.poetry.dependencies]
+python = "^3.11"
+aws-cdk-lib = "^2.99.0"
