@@ -1,0 +1,37 @@
+{
+    "failed_checks": [
+        {
+            "file": "/CiCd-production.template.json",
+            "findings": [
+                {
+                    "resource": "AWS::S3::Bucket.Bucket83908E77",
+                    "check_ids": [
+                        "CKV_AWS_18"
+                    ]
+                }
+            ]
+        },
+        {
+            "file": "/CiCd-sandbox.template.json",
+            "findings": [
+                {
+                    "resource": "AWS::S3::Bucket.Bucket83908E77",
+                    "check_ids": [
+                        "CKV_AWS_18"
+                    ]
+                }
+            ]
+        },
+        {
+            "file": "/CiCd-staging.template.json",
+            "findings": [
+                {
+                    "resource": "AWS::S3::Bucket.Bucket83908E77",
+                    "check_ids": [
+                        "CKV_AWS_18"
+                    ]
+                }
+            ]
+        }
+    ]
+}
