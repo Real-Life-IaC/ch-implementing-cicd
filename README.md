@@ -12,12 +12,6 @@ make init
 source .venv/bin/activate
 ```
 
-## Run the tests
-
-```bash
-make test
-```
-
 ## Help with Make recipes
 
 ```bash
