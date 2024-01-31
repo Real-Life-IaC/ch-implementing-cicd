@@ -29,8 +29,8 @@ jobs:
       - name: Deploy Stack
         uses: ./.github/actions/deploy
         with:
-          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.AWS_REGION }}
           stage: sandbox
 
   deploy-staging:
@@ -45,8 +45,8 @@ jobs:
       - name: Deploy Stack
         uses: ./.github/actions/deploy
         with:
-          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.AWS_REGION }}
           stage: staging
 
   deploy-production:
@@ -62,6 +62,6 @@ jobs:
       - name: Deploy Stack
         uses: ./.github/actions/deploy
         with:
-          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.AWS_REGION }}
           stage: production
