@@ -20,7 +20,8 @@ jobs:
     name: Sandbox Deploy
     if: |
       (github.event.action == 'labeled' && github.event.label.name == ':test_tube: sandbox deploy') ||
-      (github.event.action != 'labeled' && contains(github.event.pull_request.labels.*.name, ':test_tube: sandbox deploy'))
+      (github.event.action != 'labeled' && contains(github.event.pull_request.labels.*.name, ':test_tube: sandbox deploy')) ||
+      (github.event_name == 'push' && github.ref_name == 'main')
     environment: sandbox
     concurrency: sandbox
     runs-on: ubuntu-latest
