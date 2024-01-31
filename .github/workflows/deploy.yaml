@@ -17,8 +17,8 @@ permissions:
 jobs:
   deploy-sandbox:
     if: |
-      (github.event.action == 'labeled' && github.event.label.name == ':rocket: deploy') ||
-      (github.event.action != 'labeled' && contains(github.event.pull_request.labels.*.name, ':rocket: deploy'))
+      (github.event.action == 'labeled' && github.event.label.name == ':test_tube: sandbox deploy') ||
+      (github.event.action != 'labeled' && contains(github.event.pull_request.labels.*.name, ':test_tube: sandbox deploy'))
     name: Sandbox Deploy
     environment: sandbox
     concurrency: sandbox
