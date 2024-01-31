@@ -35,4 +35,4 @@ runs:
 
     - name: AWS CDK Setup
       shell: bash
-      run: npm install -g aws-cdk@@${{ inputs.cdk_version }}
+      run: npm install -g aws-cdk@${{ inputs.cdk_version }}
