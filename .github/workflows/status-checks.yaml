@@ -2,7 +2,9 @@
 name: Status Checks
 
 on:
-  - push
+  push:
+    branches-ignore:
+      - main
 
 jobs:
   test:
