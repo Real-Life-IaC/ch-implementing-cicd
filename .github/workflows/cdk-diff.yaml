@@ -41,10 +41,15 @@ jobs:
         shell: bash
         run: poetry run cdk diff CiCd-sandbox &> diff.txt
 
-      - name: Create/Edit PR Comment
+      - name: Edit PR Comment
+        continue-on-error: true
         run: |
           gh pr comment ${{ github.event.pull_request.number }} \
-            --body-file "diff.txt" ||
-          gh pr comment ${{ github.event.pull_request.number }} \
-            --body-file "diff.txt"  \
+            --body-file "diff.txt"
             --edit-last
+
+      - name: Create PR Comment
+        if: steps.run-cdk-diff.outcome == 'failure'
+        run: |
+            gh pr comment ${{ github.event.pull_request.number }} \
+            --body-file "diff.txt"
