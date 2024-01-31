@@ -44,5 +44,7 @@ jobs:
       - name: Create/Edit PR Comment
         run: |
           gh pr comment ${{ github.event.pull_request.number }} \
-            --body-file "diff.txt" \
+            --body-file "diff.txt" ||
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body-file "diff.txt"  \
             --edit-last
