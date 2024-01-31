@@ -11,8 +11,8 @@ inputs:
     description: AWS region to deploy
     required: true
 
-  stage:
-    description: Stage to deploy
+  stack-name:
+    description: Name of the stack to deploy
     required: true
 
 runs:
@@ -34,5 +34,4 @@ runs:
 
     - name: Deploy Stack
       shell: bash
-      id: deploy
-      run: poetry run cdk deploy "CiCd-${{ inputs.stage }}" --force
+      run: poetry run cdk deploy ${{ inputs.stack-name }} --force
