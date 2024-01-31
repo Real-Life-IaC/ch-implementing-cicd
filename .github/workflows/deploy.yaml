@@ -17,10 +17,10 @@ permissions:
 
 jobs:
   deploy-sandbox:
+    name: Sandbox Deploy
     if: |
       (github.event.action == 'labeled' && github.event.label.name == ':test_tube: sandbox deploy') ||
       (github.event.action != 'labeled' && contains(github.event.pull_request.labels.*.name, ':test_tube: sandbox deploy'))
-    name: Sandbox Deploy
     environment: sandbox
     concurrency: sandbox
     runs-on: ubuntu-latest
@@ -35,7 +35,7 @@ jobs:
           stage: sandbox
 
   deploy-staging:
-    if: github.event_name == 'push'
+    if: github.ref_name == 'main'
     name: Staging Deploy
     environment: staging
     concurrency: staging
@@ -51,11 +51,13 @@ jobs:
           stage: staging
 
   deploy-production:
+    if: github.ref_name == 'main'
     name: Production Deploy
     environment: production
     concurrency: production
     runs-on: ubuntu-latest
     needs:
+      - deploy-sandbox
       - deploy-staging
     steps:
       - uses: actions/checkout@v4
