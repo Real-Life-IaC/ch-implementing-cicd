@@ -63,6 +63,6 @@ jobs:
       - name: Checkov
         shell: bash
         run: |
-          poetry run checkov
-            --config-file .checkov
+          poetry run checkov \
+            --config-file .checkov \
             --baseline .checkov.baseline
