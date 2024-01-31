@@ -1,0 +1,68 @@
+---
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-staging:
+    name: Staging Deploy
+    environment: staging
+    concurrency: staging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set Up Environment
+        uses: ./.github/actions/setup
+
+      - name: Install Python Dependencies with Poetry
+        shell: bash
+        run: poetry install
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.ASSUME_ROLE }}
+          role-session-name: GitHubActions-production-${{ github.event.repository.name }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy Stack
+        shell: bash
+        id: deploy
+        run: poetry run cdk deploy "CiCd-staging" --force
+
+
+  deploy-production:
+    name: Production Deploy
+    environment: production
+    concurrency: production
+    runs-on: ubuntu-latest
+    needs:
+      - deploy-staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set Up Environment
+        uses: ./.github/actions/setup
+
+      - name: Install Python Dependencies with Poetry
+        shell: bash
+        run: poetry install
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.ASSUME_ROLE }}
+          role-session-name: GitHubActions-production-${{ github.event.repository.name }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy Stack
+        shell: bash
+        id: deploy
+        run: poetry run cdk deploy "CiCd-production" --force
