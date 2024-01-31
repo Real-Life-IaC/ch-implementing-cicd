@@ -4,9 +4,10 @@ name: CDK Diff
 on:
   pull_request:
     types:
-      - opened
-      - labeled
       - synchronize
+      - edited
+      - ready_for_review
+      - reopened
 
 permissions:
   pull-requests: write
