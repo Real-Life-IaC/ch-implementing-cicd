@@ -2,7 +2,7 @@
 name: Status Checks
 
 on:
-  push:
+  - push
 
 jobs:
   test:
@@ -11,19 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+      - name: Set Up Environment
+        uses: ./.github/actions/setup
 
-      - name: Install and configure Poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-          version: '1.7.1'
-
-      - name: Install Python Test Dependencies with Poetry
+      - name: Install Test Dependencies
         shell: bash
         run: poetry install --with test
 
@@ -39,21 +30,12 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+      - name: Set Up Environment
+        uses: ./.github/actions/setup
 
-      - name: Install and configure Poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-          version: '1.7.1'
-
-      - name: Install Python Lint Dependencies with Poetry
+      - name: Install Lint Dependencies
         shell: bash
         run: poetry install --with lint
 
@@ -65,33 +47,22 @@ jobs:
     name: Checkov
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+      - name: Set Up Environment
+        uses: ./.github/actions/setup
 
-      - name: Install and configure Poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-          version: '1.7.1'
-
-      - name: AWS CDK Setup
-        shell: bash
-        run: |
-          npm install -g aws-cdk@latest
-
-      - name: Install Python Checkov Dependencies with Poetry
+      - name: Install Checkov Dependencies
         shell: bash
         run: poetry install --with checkov
 
-      - name: CDK Synth
+      - name: Synthezise CDK templates
         shell: bash
         run: poetry run cdk synth
 
       - name: Checkov
         shell: bash
-        run: poetry run checkov --config-file .checkov --baseline .checkov.baseline
+        run: |
+          poetry run checkov \
+            --config-file .checkov \
+            --baseline .checkov.baseline

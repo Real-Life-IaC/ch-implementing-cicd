@@ -1,0 +1,68 @@
+---
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - labeled
+      - synchronize
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy-sandbox:
+    if: |
+      (github.event.action == 'labeled' && github.event.label.name == ':test_tube: sandbox deploy') ||
+      (github.event.action != 'labeled' && contains(github.event.pull_request.labels.*.name, ':test_tube: sandbox deploy'))
+    name: Sandbox Deploy
+    environment: sandbox
+    concurrency: sandbox
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy Stack
+        uses: ./.github/actions/deploy
+        with:
+          role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.AWS_REGION }}
+          stage: sandbox
+
+  deploy-staging:
+    if: github.event_name == 'push'
+    name: Staging Deploy
+    environment: staging
+    concurrency: staging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy Stack
+        uses: ./.github/actions/deploy
+        with:
+          role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.AWS_REGION }}
+          stage: staging
+
+  deploy-production:
+    name: Production Deploy
+    environment: production
+    concurrency: production
+    runs-on: ubuntu-latest
+    needs:
+      - deploy-staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy Stack
+        uses: ./.github/actions/deploy
+        with:
+          role-to-assume: ${{ vars.ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.AWS_REGION }}
+          stage: production
