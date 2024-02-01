@@ -15,4 +15,5 @@ class CiCdStack(cdk.Stack):
             id="Bucket",
             block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
             versioned=True,
+            encryption=s3.BucketEncryption.S3_MANAGED,
         )
