@@ -24,5 +24,14 @@ def test_bucket(template: Template):
                 "RestrictPublicBuckets": True,
             },
             "VersioningConfiguration": {"Status": "Enabled"},
+            "BucketEncryption": {
+                "ServerSideEncryptionConfiguration": [
+                    {
+                        "ServerSideEncryptionByDefault": {
+                            "SSEAlgorithm": "AES256"
+                        }
+                    }
+                ]
+            },
         },
     )

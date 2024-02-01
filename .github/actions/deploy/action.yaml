@@ -32,7 +32,7 @@ runs:
         role-session-name: GitHubActions-${{ github.event.repository.name }}
         aws-region: ${{ inputs.aws-region }}
 
-    - name: Deploy Stack
+    - name: CDK Deploy
       shell: bash
       id: deploy
       run: poetry run cdk deploy "CiCd-${{ inputs.stage }}" --force
