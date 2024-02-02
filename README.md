@@ -12,7 +12,7 @@ make init
 source .venv/bin/activate
 ```
 
-## Help with Make recipes
+## Help with make recipes
 
 ```bash
 make help
