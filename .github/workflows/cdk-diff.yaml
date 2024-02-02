@@ -14,8 +14,6 @@ permissions:
 jobs:
   cdk-diff:
     name: Run CDK Diff
-    environment: sandbox
-    concurrency: sandbox
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
